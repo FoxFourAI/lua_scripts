@@ -85,7 +85,9 @@ local VIOState, VIOStateDescription = create_enum {
     CAMERA_ABSENT = { value = 5, description = "Camera is absent" },
     WRONG_EKF = { value = 6, description = "Wrong EKF config" },
     LOW_SATS = { value = 7, description = "Low Satellite count" },
-    HIGH_HDOP = { value = 8, description = "High HDOP for GPS init" }
+    HIGH_HDOP = { value = 8, description = "High HDOP for GPS init" },
+    MAPS_LOAD_ERROR = { value = 9, description = "Maps load error" },
+    RESERVED = { value = 10, description = "Unknown (update this LUA script to see)" }
 }
 
 -- Enum for easy conversion of AI state to a string
