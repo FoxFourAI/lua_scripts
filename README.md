@@ -14,8 +14,13 @@ Install `photolit_arm_authorization.lua` in the flight controller's `APM/scripts
 After loading the intended scripts, configure `SCR_LD_CHECKSUM` and `SCR_RUN_CHECKSUM` so missing scripts also block arming; [ArduPilot documents generating both using `SCR_DEBUG_OPTS` bit 5](https://ardupilot.org/dev/docs/common-lua-scripts.html#script-crashes-and-errors).
 It is a camera-only guard for Photolit V2/V3 and does not require video streaming or trigger a photograph.
 Use it instead of `arm_authorization.lua` on a camera-only Photolit setup; other vehicle-specific pre-arm checks still apply.
-The matching VGM update must publish `SCR_PCAM_RST`: 0 is a fresh successful SDK check, 2 is unavailable, and Lua consumes 0 by setting 1.
-Arming starts blocked and is blocked again after 10 seconds without a fresh pulse, including VGM/camera-service failure.
+The matching VGM update sets `SCR_PCAM_EN` to 1 for `GUID_FRAME_TYPE=3` (Photolit), or 0 for other VGM frame types.
+This FCU parameter defaults to 0, so installing the script on a non-Photolit aircraft does not add a camera requirement.
+It retains the last confirmed mode across FCU reboots; a previously confirmed Photolit aircraft still requires the camera if the VGM fails to start.
+Before first use on a Photolit aircraft, connect the VGM and verify `SCR_PCAM_EN=1`, including after an FCU reboot.
+The VGM also publishes `SCR_PCAM_RST`: 0 is a fresh successful SDK check, 2 is unavailable, and Lua consumes 0 by setting 1.
+When enabled, arming starts blocked and is blocked again after 10 seconds without a fresh pulse, including VGM/camera-service failure.
+When disabled, only this guard passes; all other FCU pre-arm checks still apply.
 The script never arms or disarms the aircraft.
 Do not manually set this status parameter; it is a watchdog handshake, not a configuration switch.
 
