@@ -19,5 +19,3 @@ Video streaming is optional; this check does not trigger a photograph.
 The VGM marks the streaming AI check as satisfied in Photolit mode, while MAVLink, control and VIO retain their existing checks and service-group rules.
 Other frame types retain their existing authorization behavior.
 No additional Lua script or `SCR_PCAM_*` parameters are required.
-
-Run the offline checks of the existing script with `lua tests/arm_authorization_test.lua`.
